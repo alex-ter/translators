@@ -9,7 +9,7 @@
 	"inRepository": true,
 	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2025-06-10 14:42:15"
+	"lastUpdated": "2025-08-02 17:02:54"
 }
 
 /*
@@ -1169,7 +1169,7 @@ var testCases = [
 						"creatorType": "author"
 					}
 				],
-				"date": "2013-12-22T16:58:34+00:00",
+				"date": "2013-12-22",
 				"abstractNote": "Northwestern University recently condemned the American Studies Association boycott of Israel. Unlike some other schools that quit their institutional membership in the ASA over the boycott, Northwestern has not. Many of my Northwestern colleagues were about to start urging a similar withdrawal. Then we learned from our administration that despite being listed as in institutional […]",
 				"blogTitle": "The Volokh Conspiracy",
 				"language": "en-US",
@@ -1279,7 +1279,7 @@ var testCases = [
 						"creatorType": "author"
 					}
 				],
-				"date": "2016-01-07T13:20:02+00:00",
+				"date": "2016-01-07",
 				"abstractNote": "Excluding female characters in merchandise is an ongoing pattern.",
 				"language": "en-US",
 				"url": "https://www.vox.com/2016/1/7/10726296/wheres-rey-star-wars-monopoly",
@@ -1475,7 +1475,7 @@ var testCases = [
 						"creatorType": "author"
 					}
 				],
-				"date": "2018-12-27 01:00:00 +0100",
+				"date": "2018-12-27",
 				"abstractNote": "This talk will teach you the fundamentals of machine learning and give you a sneak peek into the internals of the mystical black box. You...",
 				"language": "en",
 				"libraryCatalog": "media.ccc.de",
@@ -1508,14 +1508,12 @@ var testCases = [
 				],
 				"date": "2015-06",
 				"ISBN": "9788460842118",
-				"abstractNote": "Abstracts aceptados sin presentacion / Accepted abstracts without presentation",
 				"conferenceName": "International Conference Arquitectonics Network: Architecture, Education and Society, Barcelona, 3-5 June 2015: Abstracts",
 				"language": "spa",
 				"libraryCatalog": "upcommons.upc.edu",
 				"publisher": "GIRAS. Universitat Politècnica de Catalunya",
-				"rights": "Open Access",
 				"shortTitle": "Necesidad y morfología",
-				"url": "https://upcommons.upc.edu/handle/2117/114657",
+				"url": "https://hdl.handle.net/2117/114657",
 				"attachments": [
 					{
 						"title": "Full Text PDF",
@@ -1687,17 +1685,11 @@ var testCases = [
 			{
 				"itemType": "webpage",
 				"title": "Woher kommt \"über die Wupper gehen\"?",
-				"creators": [
-					{
-						"firstName": "",
-						"lastName": "SWRWissen",
-						"creatorType": "author"
-					}
-				],
+				"creators": [],
 				"date": "2024-03-05",
 				"abstractNote": "Es gibt eine Vergleichsredensart: \"Der ist über den Jordan gegangen.\" Das heißt, er ist gestorben. Das bezieht sich auf die alten Grenzen Israels. In Wuppertal jedoch liegt jenseits des Flusses das Gefängnis. Von Rolf-Bernhard Essig",
 				"language": "de",
-				"url": "https://www.swr.de/wissen/1000-antworten/woher-kommt-redensart-ueber-die-wupper-gehen-102.html",
+				"url": "https://www.swr.de/kultur/sprache/woher-kommt-redensart-ueber-die-wupper-gehen-102.html",
 				"websiteTitle": "SWR",
 				"attachments": [
 					{
@@ -1756,7 +1748,7 @@ var testCases = [
 						"creatorType": "author"
 					}
 				],
-				"date": "2021-12-30T17:41:33+00:00",
+				"date": "2021-12-30",
 				"abstractNote": "Learn about kernel-mode exploitation techniques for Windows Privilege Escalation with Metasploit, ExploitDB, and more.",
 				"blogTitle": "Hacking Articles",
 				"language": "en",
@@ -1843,7 +1835,7 @@ var testCases = [
 						"creatorType": "author"
 					}
 				],
-				"date": "2021-08-16T09:54:36.000Z",
+				"date": "2021-08-16",
 				"abstractNote": "The Hon Harry Herbert, son of the 7th Earl of Carnarvon, married Clodagh McKenna in a fairytale wedding attended by everyone from George Osborne and his fiancée, Thea Rogers, to Laura Whitmore",
 				"language": "en-GB",
 				"url": "https://www.tatler.com/article/clodagh-mckenna-hon-harry-herbert-wedding-george-osborne-highclere-castle",
