@@ -9,7 +9,7 @@
 	"inRepository": true,
 	"translatorType": 12,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2025-11-12 15:42:58"
+	"lastUpdated": "2026-01-07 14:51:34"
 }
 
 /*
@@ -286,7 +286,7 @@ function getSearchResultsNew(doc, checkOnly = false) {
 	return found && items;
 }
 
-// Listings, catchup, and legacy search results (at https://arxiv.org/find/)
+// Listings, catchup, and legacy search results (at https://arxiv.org/find/) //alex-ter:removeme, see their blog post
 function getSearchResultsLegacy(doc, checkOnly = false) {
 	let items = {};
 	let found = false;
@@ -359,7 +359,7 @@ function parseAtom(doc) {
 }
 
 function parseSingleEntry(entry) {
-	let newItem = new Zotero.Item("preprint");
+	let newItem = new Zotero.Item("preprint"); //alext-ter:This doesn't match the detectedItemType sometimes, leading to both listed in tests. Is this ok?
 
 	newItem.title = ZU.trimInternal(text(entry, "title"));
 	newItem.date = ZU.strToISO(text(entry, "updated"));
@@ -423,6 +423,7 @@ function parseSingleEntry(entry) {
 
 	// retrieve and supplement publication data for published articles via DOI
 	if (newItem.DOI) {
+		Z.debug("IN THE DOI BRANCH");
 		var translate = Zotero.loadTranslator("search");
 		// DOI Content Negotiation
 		translate.setTranslator("b28d0d42-8549-4c6d-83fc-8382874a5cb9");
@@ -430,6 +431,8 @@ function parseSingleEntry(entry) {
 		var item = { itemType: "journalArticle", DOI: newItem.DOI };
 		translate.setSearch(item);
 		translate.setHandler("itemDone", function (obj, item) {
+			Z.debug("DOI TRANSLATOR RETURNED THIS:");
+			Z.debug(item);
 			newItem.itemType = item.itemType;
 			newItem.volume = item.volume;
 			newItem.issue = item.issue;
@@ -445,8 +448,11 @@ function parseSingleEntry(entry) {
 		translate.setHandler("done", function () {
 			newItem.complete();
 		});
-		translate.setHandler("error", function () { });
+		translate.setHandler("error", function () { Z.debug(`Failed to resolve DOI '${newItem.DOI}'`); });
 		translate.translate();
+		Z.debug("NEWITEM:");
+		Z.debug(newItem);
+		Z.debug("=======");
 	}
 	else {
 		newItem.publisher = "arXiv";
@@ -602,7 +608,7 @@ var testCases = [
 				"date": "12/2006",
 				"DOI": "10.1086/507935",
 				"ISSN": "0004-637X, 1538-4357",
-				"abstractNote": "We present optical $WBVR$ and infrared $JHKL$ photometric observations of the Be binary system $\\delta$ Sco, obtained in 2000--2005, mid-infrared (10 and $18 \\mu$m) photometry and optical ($\\lambda\\lambda$ 3200--10500 \\AA) spectropolarimetry obtained in 2001. Our optical photometry confirms the results of much more frequent visual monitoring of $\\delta$ Sco. In 2005, we detected a significant decrease in the object's brightness, both in optical and near-infrared brightness, which is associated with a continuous rise in the hydrogen line strenghts. We discuss possible causes for this phenomenon, which is difficult to explain in view of current models of Be star disks. The 2001 spectral energy distribution and polarization are succesfully modeled with a three-dimensional non-LTE Monte Carlo code which produces a self-consistent determination of the hydrogen level populations, electron temperature, and gas density for hot star disks. Our disk model is hydrostatically supported in the vertical direction and radially controlled by viscosity. Such a disk model has, essentially, only two free parameters, viz., the equatorial mass loss rate and the disk outer radius. We find that the primary companion is surrounded by a small (7 $R_\\star$), geometrically-thin disk, which is highly non-isothermal and fully ionized. Our model requires an average equatorial mass loss rate of $1.5\\times 10^{-9} M_{\\sun}$ yr$^{-1}$.",
+				"abstractNote": "We present optical $WBVR$ and infrared $JHKL$ photometric observations of the Be binary system $δ$ Sco, obtained in 2000--2005, mid-infrared (10 and $18 μ$m) photometry and optical ($λλ$ 3200--10500 Å) spectropolarimetry obtained in 2001. Our optical photometry confirms the results of much more frequent visual monitoring of $δ$ Sco. In 2005, we detected a significant decrease in the object's brightness, both in optical and near-infrared brightness, which is associated with a continuous rise in the hydrogen line strenghts. We discuss possible causes for this phenomenon, which is difficult to explain in view of current models of Be star disks. The 2001 spectral energy distribution and polarization are succesfully modeled with a three-dimensional non-LTE Monte Carlo code which produces a self-consistent determination of the hydrogen level populations, electron temperature, and gas density for hot star disks. Our disk model is hydrostatically supported in the vertical direction and radially controlled by viscosity. Such a disk model has, essentially, only two free parameters, viz., the equatorial mass loss rate and the disk outer radius. We find that the primary companion is surrounded by a small (7 $R_\\star$), geometrically-thin disk, which is highly non-isothermal and fully ionized. Our model requires an average equatorial mass loss rate of $1.5\\times 10^{-9} M_{\\sun}$ yr$^{-1}$.",
 				"extra": "arXiv:astro-ph/0603274",
 				"issue": "2",
 				"journalAbbreviation": "ApJ",
@@ -700,7 +706,7 @@ var testCases = [
 	},
 	{
 		"type": "web",
-		"url": "https://arxiv.org/find/cs/1/au:+Hoffmann_M/0/1/0/all/0/1",
+		"url": "https://arxiv.org/search/?query=Hoffmann%2C+M&searchtype=author&abstracts=show&order=-announced_date_first&size=50",
 		"items": "multiple"
 	},
 	{
@@ -724,7 +730,7 @@ var testCases = [
 				],
 				"date": "2014-02-06",
 				"DOI": "10.48550/arXiv.1402.1516",
-				"abstractNote": "We construct a dual pair associated to the Hamiltonian geometric formulation of perfect fluids with free boundaries. This dual pair is defined on the cotangent bundle of the space of volume preserving embeddings of a manifold with boundary into a boundaryless manifold of the same dimension. The dual pair properties are rigorously verified in the infinite dimensional Fr\\'echet manifold setting. It provides an example of a dual pair associated to actions that are not completely mutually orthogonal.",
+				"abstractNote": "We construct a dual pair associated to the Hamiltonian geometric formulation of perfect fluids with free boundaries. This dual pair is defined on the cotangent bundle of the space of volume preserving embeddings of a manifold with boundary into a boundaryless manifold of the same dimension. The dual pair properties are rigorously verified in the infinite dimensional Fréchet manifold setting. It provides an example of a dual pair associated to actions that are not completely mutually orthogonal.",
 				"archiveID": "arXiv:1402.1516",
 				"extra": "arXiv:1402.1516 [math]",
 				"libraryCatalog": "arXiv.org",
@@ -743,9 +749,6 @@ var testCases = [
 				"tags": [
 					{
 						"tag": "Mathematical Physics"
-					},
-					{
-						"tag": "Mathematics - Mathematical Physics"
 					},
 					{
 						"tag": "Mathematics - Symplectic Geometry"
@@ -1090,6 +1093,152 @@ var testCases = [
 				"notes": [
 					{
 						"note": "Comment: SIGGRAPH Asia 2023. Project page: at: https://omriavrahami.com/break-a-scene/ Video: https://www.youtube.com/watch?v=-9EA-BhizgM"
+					}
+				],
+				"seeAlso": []
+			}
+		]
+	},
+	{
+		"type": "web",
+		"url": "https://arxiv.org/abs/2512.20702",
+		"detectedItemType": "journalArticle",
+		"items": [
+			{
+				"itemType": "preprint",
+				"title": "BASS.L. Near-infrared Data Release 3: A Spectral Atlas and Characterization of AGN",
+				"creators": [
+					{
+						"firstName": "Jarred",
+						"lastName": "Gillette",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Michael J.",
+						"lastName": "Koss",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Darshan",
+						"lastName": "Kakkad",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Federica",
+						"lastName": "Ricci",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Isabella",
+						"lastName": "Lamperti",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Kyuseok",
+						"lastName": "Oh",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Alejandra",
+						"lastName": "Rojas",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Yaherlyn",
+						"lastName": "Diaz",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Turgay",
+						"lastName": "Caglar",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Kohei",
+						"lastName": "Ichikawa",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Ignacio del",
+						"lastName": "Moral-Castro",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Claudio",
+						"lastName": "Ricci",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Ezequiel",
+						"lastName": "Treister",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Franz E.",
+						"lastName": "Bauer",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Richard",
+						"lastName": "Mushotzky",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Mislav",
+						"lastName": "Baloković",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Jakob S. den",
+						"lastName": "Brok",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Benny",
+						"lastName": "Trakhtenbrot",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "C. Megan",
+						"lastName": "Urry",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Fiona",
+						"lastName": "Harrison",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Daniel",
+						"lastName": "Stern",
+						"creatorType": "author"
+					}
+				],
+				"date": "2025-12-23",
+				"DOI": "10.3847/1538-4365/ae2d58",
+				"abstractNote": "We present an analysis of near-infrared (NIR) emission-line properties, AGN diagnostics, and circumnuclear gas dynamics for 453 hard X-ray selected (14$-$195 keV) AGN from the BAT AGN Spectroscopic Survey (BASS) NIR Data Release 3 (DR3; $\\langle z \\rangle=0.036$, $z<1.0$). This dataset is the largest compilation of rest-frame NIR spectroscopic observations of hard-X-ray-selected AGN and includes the full DR2 sample. Observations were obtained with VLT X-shooter, a multiwavelength (0.3$-$2.5$μ$m) spectrograph ($R$ = 4,000$-$18,000), using a $\\geq 2 σ$ detection threshold, enabling broad analysis of emission features. We find that NIR coronal lines, particularly SiVI $\\lambda1.964$, are more reliable tracers of AGN luminosity than optical [OIII], showing a tighter correlation with hard X-ray luminosity ($σ=0.25$dex) than [OIII] $\\lambda5007$ ($σ=0.55$dex). Broad Paschen lines (Pa$α$ and Pa$β$) are detected in 12% of Seyfert 2 and 57% of Seyfert 1.9, consistent with previous hidden BLR studies. We introduce a refined NIR diagnostic diagram (FeII $\\lambda1.257$$μ$m/Pa$β$ and H$_2$ $λ2.122$$μ$m/Br$γ$) that effectively distinguishes AGN, star-forming, and composite sources even when contamination limits individual diagnostics or only upper limits are available. Additionally, we find a moderate correlation ($p \\approx 7.4 \\times 10^{-3}$) between hot molecular gas mass (traced by H$_2$ 2.121$μ$m) and X-ray luminosity, while its relation with Eddington ratio is weaker. The hot-to-cold gas mass ratio spans four orders of magnitude, averaging $\\sim 3 \\times 10^{-7}$, indicating diverse molecular gas excitation processes likely driven by star formation and AGN feedback. Our results underscore the value of NIR spectroscopy in probing AGN activity, obscured BLRs, and the complex interactions between AGN and their circumnuclear environments.",
+				"extra": "arXiv:2512.20702 [astro-ph]",
+				"libraryCatalog": "arXiv.org",
+				"shortTitle": "BASS.L. Near-infrared Data Release 3",
+				"url": "http://arxiv.org/abs/2512.20702",
+				"attachments": [
+					{
+						"title": "Preprint PDF",
+						"mimeType": "application/pdf"
+					},
+					{
+						"title": "Snapshot",
+						"mimeType": "text/html"
+					}
+				],
+				"tags": [
+					{
+						"tag": "Astrophysics - Astrophysics of Galaxies"
+					}
+				],
+				"notes": [
+					{
+						"note": "Comment: 27 pages, 15 figures, accepted for publication in The Astrophysical Journal Supplement Series"
 					}
 				],
 				"seeAlso": []
